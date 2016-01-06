@@ -1,5 +1,4 @@
-ПРИВЕТ АРТЁМКА!!!!
-
+ПОКА АРТЁМКА!!!!
 ![School-PHP](https://raw.githubusercontent.com/schoolphp/library/master/Installer/install/skins/img/logo2.jpg)
 School-PHP FrameWork: "Fox and Wolf"
 ===========================
@@ -28,3 +27,9 @@ git pull https://github.com/schoolphp/framework
 
 ## Важные особенности
 Не стоит бояться файла `install.php`, так как установки не будет, если она уже была выполнена ранее!
+
+## Обновление ядра
+Если Вы узнали, что ядро получило изменения, то запустите git команду:
+```bash
+
+```
