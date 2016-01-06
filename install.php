@@ -203,7 +203,6 @@ $phperror = ob_get_clean();
 		innerDiv.className = 'module-block-params';
 		document.getElementById('sitemap-paramslist-' + parentidget).appendChild(innerDiv);
 		innerDiv.innerHTML = text;
-
 		++uidparam;
 		return false;
 	}
