@@ -69,7 +69,7 @@ $phperror = ob_get_clean();
 	<div<?=(\FW\Installer\Installer::$step == 4 ? ' class="active"' : '');?>>Удаление установочных файлов</div>
 </aside>
 <main>
-	<?php if(\FW\Installer\Installer::$step < 6) { ?>
+	<?php if(\FW\Installer\Installer::$step < 5) { ?>
 		<form action="" method="post">
 			<table>
 				<tr><th colspan="2"><h1>SITE данные</h1></th></tr>
@@ -109,6 +109,10 @@ $phperror = ob_get_clean();
 			<button onclick="return sitemapAddElement();" class="btn btn-danger btn-xs">Add new Module</button>
 			<hr><input type="submit" class="btn btn-success">
 		</form>
+	<?php } else { ?>
+		<h1 style="color: #090;">Установка завершена!</h1>
+		<div>Сейчас Вы будете перенаправлены на на главную страницу.</div>
+		<?php redirect('/'); ?>
 	<?php } ?>
 </main>
 <div style="clear: both;"></div>
