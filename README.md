@@ -33,3 +33,11 @@ git pull https://github.com/schoolphp/framework
 git pull https://github.com/schoolphp/framework
 ```
 > **Примечания:** Если просят удалить файлы, то были нарушены принципы Фреймворка, так как нельзя лезть в файлы ядра!
+
+## Дополнительно:
+Сократить `git pull` можно, если заранее указать указать репозиторий:
+```bash
+git config remote.origin.url https://github.com/schoolphp/framework
+```
+
+И дальше обновлять просто командой `git pull`.
