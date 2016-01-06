@@ -6,7 +6,7 @@ function wtf($array, $stop = false) {
 	}
 }
 	
-function trimAll($el) {
+function trimAll($el,$array = false) {
 	if(!is_array($el)) {
 		$el = trim($el);
 	} else {
@@ -15,7 +15,7 @@ function trimAll($el) {
 	return $el;	
 }
 
-function intAll($el) {
+function intAll($el,$array = false) {
 	if(!is_array($el)) {
 		$el = (int)($el);
 	} else {
@@ -24,7 +24,7 @@ function intAll($el) {
 	return $el;	
 }
 
-function floatAll($el) {
+function floatAll($el,$array = false) {
 	if(!is_array($el)) {
 		$el = (float)($el);
 	} else {
