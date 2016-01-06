@@ -1,0 +1,24 @@
+{
+  "name": "school-php",
+  "authors": [
+    "inpost <inpost@list.ru>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "skins/components/bower/",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "3.3.6",
+    "ckeditor": "~4.5.5",
+    "jquery": "2.1.4"
+  }
+}

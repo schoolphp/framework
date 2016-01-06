@@ -1,0 +1,29 @@
+{
+  "name": "schoolphp/framework",
+  "description": "Main School-PHP Framework with install.php",
+  "type": "project",
+  "minimum-stability": "dev",
+  "preferred-install": "dev",
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/schoolphp/framework"
+    }
+  ],
+  "license": "MIT",
+  "homepage": "http://school-php.com",
+  "authors": [
+    {
+      "name": "school-php.com",
+      "email": "admin@school-php.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.6.0",
+    "schoolphp/library": "dev-master",
+    "phpmailer/phpmailer": "5.4.x-dev"
+  },
+  "config": {
+    "preferred-install": "dist"
+  }
+}
