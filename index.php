@@ -18,7 +18,7 @@ Core::$ROOT = __DIR__;
 $t = microtime(true);
 
 include './vendor/autoload.php';
-include './library/default.php';
+include './vendor/schoolphp/library/Core/functions.php';
 
 if(Core::$STUBROUTINE['status']) {
 	if(isset($_SERVER['REMOTE_ADDR'])) {
