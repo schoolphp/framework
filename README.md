@@ -4,14 +4,14 @@ School-PHP FrameWork: "Fox and Wolf"
 
 ## Установка 
 
-Создайте новый проект в PHPStorm, выберите способ создания `COMPOSER` и установите пакет `schoolphp/framework`.
+1.а) Создайте новый проект в PHPStorm, выберите способ создания `COMPOSER` и установите пакет `schoolphp/framework`.
 > **Note:** Как альтернатива можно запустить команду:
 ```bash
 composer create-project schoolphp/framework <project-path>
 ```
 
-## Установка через git
-1) Запускаем команды через `Terminal` в PHPStorm, быстрый доступ находится слева внизу:
+## Альтернативная установка через git
+1.б) Запускаем команды через `Terminal` в PHPStorm, быстрый доступ находится слева внизу:
 ```bash
 git init
 git pull https://github.com/schoolphp/framework
