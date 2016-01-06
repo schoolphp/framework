@@ -32,7 +32,7 @@ Tools -> Command Line Tool Support
 И добавляем через `+` - `composer` с галочкой на `global` 
 > **Примечание:** Если уже установлен, то повторно подключать не надо!
 
-3) Устанавливаем все пакеты `composer`:
+5) Устанавливаем все пакеты `composer`:
 ```bash
 Tools -> Run Command
 ```
