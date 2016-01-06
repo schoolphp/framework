@@ -120,7 +120,7 @@ class FrontController {
 			} else {
 				Core::$SITEMAP = require __DIR__.'/config/sitemap'.(defined('ADMIN') ? '_admin' : '').'.php';
 			}
-			require __DIR__.'/config/sitemap_core'.(defined('ADMIN') ? '_admin' : '').'.php';
+			require __DIR__.'/config/sitemap'.(defined('ADMIN') ? '_admin' : '').'_core.php';
 
 			if(!isset($temp[$i])) {
 				$_GET['_module'] = 'main';
