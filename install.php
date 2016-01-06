@@ -207,8 +207,6 @@ $phperror = ob_get_clean();
 		++uidparam;
 		return false;
 	}
-	//sitemapAddElement('main');
-	//sitemapAddPage(1,'main');
 </script>
 <?php
 echo '<script>';
