@@ -111,8 +111,7 @@ $phperror = ob_get_clean();
 		</form>
 	<?php } else { ?>
 		<h1 style="color: #090;">Установка завершена!</h1>
-		<div>Сейчас Вы будете перенаправлены на на главную страницу.</div>
-		<?php redirect('/'); ?>
+		<div>Теперь Вы можете: <a href="/">перейти на главную страницу сайта</a></div>
 	<?php } ?>
 </main>
 <div style="clear: both;"></div>
