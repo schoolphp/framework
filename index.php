@@ -34,7 +34,7 @@ if(Core::$STUBROUTINE['status']) {
 			}
 		}
 	}
- 	if(empty($allow)) {
+	if(empty($allow)) {
 		header("HTTP/1.0 503 Service Unavailable");
 		require './skins/stubroutine.tpl';
 		exit;
@@ -49,7 +49,7 @@ if(!empty($_GET['URI']) && $_GET['URI'] != 'index.php') {
 		header("Location: /404");
 	}
 	exit;
-	
+
 }
 require './'.Core::$CONT.'/_allmodules.php';
 
@@ -60,7 +60,7 @@ class FrontController {
 		$_GET = $GET;
 		return $content;
 	}
-	
+
 	static function init($route = '',$tempGET = false) {
 		if($tempGET) {
 			$GET = $_GET;
@@ -97,17 +97,16 @@ class FrontController {
 
 			$i = 0;
 			$temp = explode('/',$route);
-			
+
 			if(Core::$LANGUAGE['status']) {
 				if(in_array($temp[$i],Core::$LANGUAGE['allow'])) {
 					Core::$LANGUAGE['lang'] = $temp[$i++];
 				}
 			}
-	
+
 			if(isset($temp[$i]) && $temp[$i] == 'admin') {
 				define('ADMIN',true);
 				Core::$CONT = Core::$CONT.'/admin';
-				require './'.Core::$CONT.'/_allmodules.php';
 				Core::$MAINTPL = 'admin.tpl';
 				++$i;
 			}
@@ -199,37 +198,40 @@ class FrontController {
 		}
 
 		ob_start();
-			if(!empty(Core::$SITEMAP[$_GET['_module']]['/OPTIONS']['config'])) {
-				require './'.Core::$CONT.'/'.$_GET['_module'].'/config/config.php';
+		if(defined('ADMIN')) {
+			require './'.Core::$CONT.'/_allmodules.php';
+		}
+		if(!empty(Core::$SITEMAP[$_GET['_module']]['/OPTIONS']['config'])) {
+			require './'.Core::$CONT.'/'.$_GET['_module'].'/config/config.php';
+		}
+
+		if(!empty(Core::$SITEMAP[$_GET['_module']]['/OPTIONS']['controller'])) {
+			require './'.Core::$CONT.'/'.$_GET['_module'].'/controller/controller.php';
+		} else {
+			if(!empty(Core::$SITEMAP[$_GET['_module']]['/OPTIONS']['allpages'])) {
+				require './'.Core::$CONT.'/'.$_GET['_module'].'/_allpages.php';
 			}
 
-			if(!empty(Core::$SITEMAP[$_GET['_module']]['/OPTIONS']['controller'])) {
-				require './'.Core::$CONT.'/'.$_GET['_module'].'/controller/controller.php';
-			} else {
-				if(!empty(Core::$SITEMAP[$_GET['_module']]['/OPTIONS']['allpages'])) {
-					require './'.Core::$CONT.'/'.$_GET['_module'].'/_allpages.php';
-				}
+			require './'.Core::$CONT.'/'.$_GET['_module'].'/'.$_GET['_page'].'.php';
 
-				require './'.Core::$CONT.'/'.$_GET['_module'].'/'.$_GET['_page'].'.php';
-
-				if(!empty(Core::$SITEMAP[$_GET['_module']]['/OPTIONS']['before'])) {
-					require './'.Core::$CONT.'/'.$_GET['_module'].'/view'.Core::$SKIN.'/_before.tpl';
-				}
-
-				require './'.Core::$CONT.'/'.$_GET['_module'].'/view'.Core::$SKIN.'/'.$_GET['_page'].'.tpl';
-
-				if(!empty(Core::$SITEMAP[$_GET['_module']]['/OPTIONS']['after'])) {
-					require './'.Core::$CONT.'/'.$_GET['_module'].'/view'.Core::$SKIN.'/_after.tpl';
-				}
+			if(!empty(Core::$SITEMAP[$_GET['_module']]['/OPTIONS']['before'])) {
+				require './'.Core::$CONT.'/'.$_GET['_module'].'/view'.Core::$SKIN.'/_before.tpl';
 			}
-			if($tempGET) {
-				$_GET = $GET;
+
+			require './'.Core::$CONT.'/'.$_GET['_module'].'/view'.Core::$SKIN.'/'.$_GET['_page'].'.tpl';
+
+			if(!empty(Core::$SITEMAP[$_GET['_module']]['/OPTIONS']['after'])) {
+				require './'.Core::$CONT.'/'.$_GET['_module'].'/view'.Core::$SKIN.'/_after.tpl';
 			}
-			
-			if(Core::$AUTOCANONICAL && empty(Core::$META['canonical'])) {
-				Core::$META['canonical'] = createUrl('this');
-			}
-			
+		}
+		if($tempGET) {
+			$_GET = $GET;
+		}
+
+		if(Core::$AUTOCANONICAL && empty(Core::$META['canonical'])) {
+			Core::$META['canonical'] = createUrl('this');
+		}
+
 		return ob_get_clean();
 	}
 }
