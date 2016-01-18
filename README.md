@@ -48,7 +48,14 @@ Tools -> Run Command
 ## Важные особенности
 Не стоит бояться файла `install.php`, так как установки не будет, если она уже была выполнена ранее!
 
-## Обновление ядра
+## Обновление проекта
+- Обновление библиотек bower: открываем `Terminal` и вводим команду: `bower update`;
+- Обновление библиотек composer: открываем `Command Line Tool Support` и вводим команды:
+```bash
+c clear-cache
+c update
+```
+
 Если Вы узнали, что ядро получило изменения, то запустите git команду:
 ```bash
 git pull https://github.com/schoolphp/framework
