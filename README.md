@@ -10,8 +10,7 @@ School-PHP FrameWork: "Fox and Wolf"
 composer create-project schoolphp/framework <project-path>
 ```
 
-## Альтернативная установка через git
-1.б) Запускаем команды через `Terminal` в PHPStorm, быстрый доступ находится слева внизу:
+1.б) Альтернативная установка через git: запускаем команды через `Terminal` в PHPStorm, быстрый доступ находится слева внизу:
 ```bash
 git init
 git pull https://github.com/schoolphp/framework
