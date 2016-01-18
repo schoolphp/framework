@@ -55,8 +55,7 @@ Tools -> Run Command
 c clear-cache
 c update
 ```
-
-Если Вы узнали, что ядро получило изменения, то запустите git команду:
+- Обновление ядра проекта: открываем `Terminal` и запустите git команду:
 ```bash
 git pull https://github.com/schoolphp/framework
 ```
