@@ -5,7 +5,7 @@ School-PHP FrameWork: "Fox and Wolf"
 ## Установка 
 
 1.а) Создайте новый проект в PHPStorm, выберите способ создания `COMPOSER` и установите пакет `schoolphp/framework`.
-> **Note:** Как альтернатива можно запустить команду:
+2.б) Как альтернатива можно запустить команду:
 ```bash
 composer create-project schoolphp/framework <project-path>
 ```
@@ -50,7 +50,7 @@ Tools -> Run Command
 
 ## Обновление проекта
 - Обновление библиотек bower: открываем `Terminal` и вводим команду: `bower update`;
-- Обновление библиотек composer: открываем `Command Line Tool Support` и вводим команды:
+- Обновление библиотек composer: открываем `Tools -> Run Command` и вводим команды:
 ```bash
 c clear-cache
 c update
