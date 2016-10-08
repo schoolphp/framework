@@ -1,7 +1,7 @@
 <?php
 ini_set('log_errors',1);
 include_once './config/config.php';
-if(Core::$HTTPS) {
+if(Core::$HTTPS && (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != 'on')) {
 	header("Location: https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'],TRUE,301);
 	exit;
 }
@@ -41,8 +41,10 @@ if(Core::$STUBROUTINE['status']) {
 	}
 }
 
+require './'.Core::$CONT.'/_allmodules.php';
+
 if(!empty($_GET['URI']) && $_GET['URI'] != 'index.php') {
-	$allow = array('skins/components/kcaptcha/index.php');
+	$allow = ['skins/components/kcaptcha/index.php'];
 	if(in_array($_GET['URI'],$allow) || strpos($_GET['URI'],'/') === false) {
 		require_once './'.$_GET['URI'];
 	} else {
@@ -51,7 +53,6 @@ if(!empty($_GET['URI']) && $_GET['URI'] != 'index.php') {
 	exit;
 
 }
-require './'.Core::$CONT.'/_allmodules.php';
 
 class FrontController {
 	static function getComponent($route,$tempGET = false) {
@@ -64,7 +65,7 @@ class FrontController {
 	static function init($route = '',$tempGET = false) {
 		if($tempGET) {
 			$GET = $_GET;
-			$_GET = ($tempGET === true ? array('ajax'=>1) : $tempGET);
+			$_GET = ($tempGET === true ? ['ajax'=>1] : $tempGET);
 		}
 		if(empty($route)) {
 			$_GET['_module'] = 'main';
@@ -115,7 +116,7 @@ class FrontController {
 			}
 
 			if(file_exists(__DIR__.'/'.Core::$CONT.'/'.$temp[$i].'/sitemap/sitemap.php')) {
-				Core::$SITEMAP = require __DIR__.'/'.Core::$CONT.'/'.$temp[$i].'/sitemap/sitemap.php';
+				Core::$SITEMAP[$temp[$i]] = require __DIR__.'/'.Core::$CONT.'/'.$temp[$i].'/sitemap/sitemap.php';
 			} else {
 				Core::$SITEMAP = require __DIR__.'/config/sitemap'.(defined('ADMIN') ? '_admin' : '').'.php';
 			}
