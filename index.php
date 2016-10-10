@@ -19,6 +19,7 @@ $t = microtime(true);
 
 include './vendor/autoload.php';
 include './vendor/schoolphp/library/Core/functions.php';
+include './'.Core::$CONT.'/_allmodules.php';
 
 if(Core::$STUBROUTINE['status']) {
 	if(isset($_SERVER['REMOTE_ADDR'])) {
@@ -40,8 +41,6 @@ if(Core::$STUBROUTINE['status']) {
 		exit;
 	}
 }
-
-require './'.Core::$CONT.'/_allmodules.php';
 
 if(!empty($_GET['URI']) && $_GET['URI'] != 'index.php') {
 	$allow = ['skins/components/kcaptcha/index.php'];
