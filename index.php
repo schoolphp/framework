@@ -2,7 +2,10 @@
 ini_set('log_errors',1);
 include_once './config/config.php';
 if(Core::$HTTPS && (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != 'on')) {
-	header("Location: https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'],TRUE,301);
+	$data = 'Redirect:';
+	$data .= print_r($_SERVER,1);
+	file_put_contents(__DIR__.'/test.txt',$data."\r\n");
+	header("Location: ".Core::$DOMAIN.($_SERVER['REQUEST_URI'] ?? ''),TRUE,301);
 	exit;
 }
 if(Core::$STATUS == 0) {
@@ -19,7 +22,6 @@ $t = microtime(true);
 
 include './vendor/autoload.php';
 include './vendor/schoolphp/library/Core/functions.php';
-include './'.Core::$CONT.'/_allmodules.php';
 
 if(Core::$STUBROUTINE['status']) {
 	if(isset($_SERVER['REMOTE_ADDR'])) {
@@ -52,6 +54,7 @@ if(!empty($_GET['URI']) && $_GET['URI'] != 'index.php') {
 	exit;
 
 }
+require './'.Core::$CONT.'/_allmodules.php';
 
 class FrontController {
 	static function getComponent($route,$tempGET = false) {
@@ -74,7 +77,7 @@ class FrontController {
 			}
 		} else {
 			if(Core::$SHORTLINK) {
-				$matches = array();
+				$matches = [];
 				if(preg_match('#^('.implode('|',Core::$LANGUAGE['allow']).')\/#ius',$route,$matches)) {
 					$shortroute = preg_replace('#^'.preg_quote($matches[0]).'#ius','',$route);
 				} else {
@@ -113,7 +116,6 @@ class FrontController {
 			if(empty($temp[$i])) {
 				$temp[$i] = 'main';
 			}
-
 			if(file_exists(__DIR__.'/'.Core::$CONT.'/'.$temp[$i].'/sitemap/sitemap.php')) {
 				Core::$SITEMAP[$temp[$i]] = require __DIR__.'/'.Core::$CONT.'/'.$temp[$i].'/sitemap/sitemap.php';
 			} else {
