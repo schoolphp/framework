@@ -2,9 +2,6 @@
 ini_set('log_errors',1);
 include_once './config/config.php';
 if(Core::$HTTPS && (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != 'on')) {
-	$data = 'Redirect:';
-	$data .= print_r($_SERVER,1);
-	file_put_contents(__DIR__.'/test.txt',$data."\r\n");
 	header("Location: ".Core::$DOMAIN.($_SERVER['REQUEST_URI'] ?? ''),TRUE,301);
 	exit;
 }
