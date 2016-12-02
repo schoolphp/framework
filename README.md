@@ -4,13 +4,26 @@ School-PHP FrameWork: "Fox and Wolf"
 
 ## Установка 
 
-1.а) Создайте новый проект в PHPStorm, выберите способ создания `COMPOSER` и установите пакет `schoolphp/framework`.
-2.б) Как альтернатива можно запустить команду:
+0) Подготовка. Для начала нам потребуется `COMPOSER`. Если ранее через него уже была установка данного Frame Work, то необходимо очистить кэш. Для начала настроим PHPStorm в `settings` и `default settings`:
+ - в разделе `Languages->PHP` указать PHP Language level: php 7 , CLI Interpreter: php 7
+ - в разделе `Languages->PHP->Composer` указать PHP Interpreter: php 7.
+ - в разделе `Tools->Command line tool support` или `ctrl+alt+s` и добавляем запись через `+` - `composer` с галочкой на `global` 
+
+> **Примечание:** Если уже установлен, то повторно подключать не надо!
+
+Теперь открываем `Tools->Run command...` или `ctrl+shift+x`. Где вводим команду по очистке кэша:
 ```bash
-composer create-project schoolphp/framework <project-path>
+c clear-cache
 ```
 
-1.б) Альтернативная установка через git: запускаем команды через `Terminal` в PHPStorm, быстрый доступ находится слева внизу:
+
+1.а) Создайте новый проект в PHPStorm, выберите способ создания `COMPOSER` и установите пакет `schoolphp/framework`.
+2.б) Как альтернатива можно запустить команду в `Tools->Run command...`:
+```bash
+c create-project schoolphp/framework <project-path>
+```
+
+1.в) Альтернативная установка через git: запускаем команды через `Terminal` в PHPStorm, быстрый доступ находится слева внизу:
 ```bash
 git init
 git pull https://github.com/schoolphp/framework
@@ -20,22 +33,15 @@ git pull https://github.com/schoolphp/framework
 ```bash
 Languages & Frameworks -> JavaScript -> Bower
 ```
-выбираем bower.json из проекта.
-
-3) Устанавливаем все пакеты `bower`: открываем `Terminal` и вводим команду: `bower install`
-
-4) Подключаем `composer`. Открываем конфиг `ctrl+alt+s`: 
+выбираем bower.json из проекта. Устанавливаем все пакеты `bower`, для этого открываем `Terminal` и вводим команду:
 ```bash
-Tools -> Command Line Tool Support
+bower install
 ```
-И добавляем через `+` - `composer` с галочкой на `global` 
-> **Примечание:** Если уже установлен, то повторно подключать не надо!
 
-5) Устанавливаем все пакеты `composer`:
+3) Устанавливаем все пакеты `composer` - `Tools -> Run Command` и вводим команду:
 ```bash
-Tools -> Run Command
+c install
 ```
-Альтернативная комбинация `ctrl+shift+x` , и вводим команду: `c install`
 
 
 ## Настройка
