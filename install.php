@@ -55,8 +55,8 @@ $phperror = ob_get_clean();
 </head>
 <body>
 <header style="text-align:center; background-image:url(/vendor/schoolphp/library/Installer/install/skins/img/logo2-bg.jpg);
- position:relative; margin: -40px -30px 0px -30px; padding-bottom: 0px;">
-	<div style="position:absolute;top: 259px;left: 0; right: 0; margin-left:-20px; font-family: Georgia;font-size: 30px;color: #605C5D;font-style: oblique;">FrameWork version 1.0.4</div>
+ position:relative; margin: -40px -30px 0 -30px; padding-bottom: 0;">
+	<div style="position:absolute;top: 259px;left: 0; right: 0; margin-left:-20px; font-family: Georgia, serif;font-size: 30px;color: #605C5D;font-style: oblique;">FrameWork version 1.0.4</div>
 	<img src="/vendor/schoolphp/library/Installer/install/skins/img/logo2.jpg" alt="School-PHP FrameWork">
 </header>
 <?php if(isset($error)) {echo '<h1 style="color: #900;">'.$error.'</h1>';} ?>
