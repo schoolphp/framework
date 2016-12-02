@@ -97,7 +97,7 @@ $phperror = ob_get_clean();
 				<tr><th colspan="2"><h1>MySQL данные</h1></th></tr>
 				<tr><th>MySQL логин</th><td><input type="text" name="db-login" placeholder="db-login" class="form-control" value="<?=(isset($_SESSION['db-login']) ? $_SESSION['db-login'] : '');?>"></td></tr>
 				<tr><th>MySQL пароль</th><td><input type="password" name="db-pass" placeholder="db-pass" class="form-control" value="<?=(isset($_SESSION['db-pass']) ? $_SESSION['db-pass'] : '');?>"></td></tr>
-				<tr><th>MySQL HOST</th><td><input type="text" name="db-local" placeholder="db-local" class="form-control" value="<?=(isset($_SESSION['db-local']) ? $_SESSION['db-local'] : '');?>"></td></tr>
+				<tr><th>MySQL HOST</th><td><input type="text" name="db-local" placeholder="db-local" class="form-control" value="<?=(isset($_SESSION['db-local']) ? $_SESSION['db-local'] : 'localhost');?>"></td></tr>
 				<tr><th>MySQL имя Базы Данных</th><td><input type="text" name="db-name" placeholder="db-name" class="form-control" value="<?=(isset($_SESSION['db-name']) ? $_SESSION['db-name'] : '');?>"></td></tr>
 
 				<tr><th colspan="2"><h1>ADMIN данные</h1></th></tr>
