@@ -1,6 +1,5 @@
 <?php
 /**
- * Hi :)
  * version 1.0.8
  */
 error_reporting(-1);
