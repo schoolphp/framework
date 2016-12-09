@@ -51,6 +51,7 @@ if(!empty($_GET['URI']) && $_GET['URI'] != 'index.php') {
 	exit;
 
 }
+
 require './'.Core::$CONT.'/_allmodules.php';
 
 class FrontController {
