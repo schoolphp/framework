@@ -3,7 +3,6 @@
 .git/
 /vendor/
 composer.phar
-install.php
 *.ipr
 *.iws
 /out/
