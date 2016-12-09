@@ -1,6 +1,6 @@
 <?php
 /**
- * version 1.0.7
+ * version 1.0.8
  */
 error_reporting(-1);
 ini_set('display_errors',1);
