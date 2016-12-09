@@ -67,134 +67,129 @@ class FrontController {
 			$_GET = ($tempGET === true ? ['ajax'=>1] : $tempGET);
 		}
 		if(empty($route)) {
+			$route = '/';
+		}
+		if(Core::$SHORTLINK) {
+			$matches = [];
+			if(preg_match('#^('.implode('|',Core::$LANGUAGE['allow']).')\/#ius',$route,$matches)) {
+				$shortroute = preg_replace('#^'.preg_quote($matches[0]).'#ius','',$route);
+			} else {
+				$shortroute = $route;
+			}
+			$res = q("
+				SELECT `short`,`full`
+				FROM `fw_shortlink`
+				WHERE `short` = '".es(trim($shortroute,'/'))."'
+				   OR `full`  = '".es(trim($shortroute,'/'))."'
+			");
+			if($res->num_rows) {
+				$row = $res->fetch_assoc();
+				Core::$META['shortlink'] = '/'.$row['short'];
+				Core::$META['canonical'] = '/'.$row['full'];
+				$route = (count($matches) ? $matches[0] : '').$row['full'];
+			}
+			$res->close();
+		}
+
+		$i = 0;
+		$temp = explode('/',$route);
+
+		if(Core::$LANGUAGE['status']) {
+			if(in_array($temp[$i],Core::$LANGUAGE['allow'])) {
+				Core::$LANGUAGE['lang'] = $temp[$i++];
+			}
+		}
+
+		if(isset($temp[$i]) && $temp[$i] == 'admin') {
+			define('ADMIN',true);
+			Core::$CONT = Core::$CONT.'/admin';
+			Core::$MAINTPL = 'admin.tpl';
+			++$i;
+		}
+		if(empty($temp[$i])) {
+			$temp[$i] = 'main';
+		}
+		if(file_exists(__DIR__.'/'.Core::$CONT.'/'.$temp[$i].'/sitemap/sitemap.php')) {
+			Core::$SITEMAP[$temp[$i]] = require __DIR__.'/'.Core::$CONT.'/'.$temp[$i].'/sitemap/sitemap.php';
+		} else {
+			Core::$SITEMAP = require __DIR__.'/config/sitemap'.(defined('ADMIN') ? '_admin' : '').'.php';
+		}
+		require __DIR__.'/config/sitemap'.(defined('ADMIN') ? '_admin' : '').'_core.php';
+
+		if(!isset($temp[$i])) {
 			$_GET['_module'] = 'main';
 			$_GET['_page'] = 'main';
-			if(file_exists(__DIR__.'/'.Core::$CONT.'/main/sitemap/sitemap.php')) {
-				Core::$SITEMAP = require __DIR__.'/'.Core::$CONT.'/main/sitemap/sitemap.php';
-			}
+		} elseif(in_array($temp[$i],Core::$SITEMAP['single'])) {
+			$_GET['_module'] = 'static';
+			$_GET['_page'] = $temp[$i++];
 		} else {
-			if(Core::$SHORTLINK) {
-				$matches = [];
-				if(preg_match('#^('.implode('|',Core::$LANGUAGE['allow']).')\/#ius',$route,$matches)) {
-					$shortroute = preg_replace('#^'.preg_quote($matches[0]).'#ius','',$route);
-				} else {
-					$shortroute = $route;
-				}
-				$res = q("
-					SELECT `short`,`full`
-					FROM `fw_shortlink`
-					WHERE `short` = '".es(trim($shortroute,'/'))."'
-					   OR `full`  = '".es(trim($shortroute,'/'))."'
-				");
-				if($res->num_rows) {
-					$row = $res->fetch_assoc();
-					Core::$META['shortlink'] = '/'.$row['short'];
-					Core::$META['canonical'] = '/'.$row['full'];
-					$route = (count($matches) ? $matches[0] : '').$row['full'];
-				}
-				$res->close();
-			}
-
-			$i = 0;
-			$temp = explode('/',$route);
-
-			if(Core::$LANGUAGE['status']) {
-				if(in_array($temp[$i],Core::$LANGUAGE['allow'])) {
-					Core::$LANGUAGE['lang'] = $temp[$i++];
-				}
-			}
-
-			if(isset($temp[$i]) && $temp[$i] == 'admin') {
-				define('ADMIN',true);
-				Core::$CONT = Core::$CONT.'/admin';
-				Core::$MAINTPL = 'admin.tpl';
-				++$i;
-			}
-			if(empty($temp[$i])) {
-				$temp[$i] = 'main';
-			}
-			if(file_exists(__DIR__.'/'.Core::$CONT.'/'.$temp[$i].'/sitemap/sitemap.php')) {
-				Core::$SITEMAP[$temp[$i]] = require __DIR__.'/'.Core::$CONT.'/'.$temp[$i].'/sitemap/sitemap.php';
-			} else {
-				Core::$SITEMAP = require __DIR__.'/config/sitemap'.(defined('ADMIN') ? '_admin' : '').'.php';
-			}
-			require __DIR__.'/config/sitemap'.(defined('ADMIN') ? '_admin' : '').'_core.php';
-
-			if(!isset($temp[$i])) {
-				$_GET['_module'] = 'main';
-				$_GET['_page'] = 'main';
-			} elseif(in_array($temp[$i],Core::$SITEMAP['single'])) {
-				$_GET['_module'] = 'static';
-				$_GET['_page'] = $temp[$i++];
-			} else {
-				$temp[$i] = (string)$temp[$i];
-				if(!isset(Core::$SITEMAP[$temp[$i]]) || !preg_match('#^[a-z0-9_-]+$#ius',$temp[$i])) {
-					$_GET['_module'] = 'static';
-					$_GET['_page'] = '404';
-					goto page404;
-				} else {
-					$_GET['_module'] = $temp[$i++];
-				}
-
-				if(!isset($temp[$i])) {
-					$key = key(Core::$SITEMAP[$_GET['_module']]);
-					$_GET['_page'] = (!isset(Core::$SITEMAP[$_GET['_module']][$key]) ? 'main' : $key);
-				} elseif(isset(Core::$SITEMAP[$_GET['_module']][$temp[$i]])) {
-					$temp[$i] = (string)$temp[$i];
-					$_GET['_page'] = $temp[$i++];
-				} else {
-					$key = key(Core::$SITEMAP[$_GET['_module']]);
-					$_GET['_page'] = (!isset(Core::$SITEMAP[$_GET['_module']][$key]) ? 'main' : $key);
-				}
-
-				page404:
-
-				if(isset(Core::$SITEMAP[$_GET['_module']][$_GET['_page']]) && is_array(Core::$SITEMAP[$_GET['_module']][$_GET['_page']])) {
-					foreach(Core::$SITEMAP[$_GET['_module']][$_GET['_page']] as $k=>$v) {
-						if(!isset($temp[$i])) {
-							if(!empty($v['req'])) {
-								$_GET['_module'] = 'static';
-								$_GET['_page'] = '404';
-								goto page404;
-							} elseif(isset($v['default'])) {
-								$_GET[$k] = $v['default'];
-							}
-						} else {
-							if(!empty($v['req']) && empty($temp[$i])) {
-								$_GET['_module'] = 'static';
-								$_GET['_page'] = '404';
-								goto page404;
-							}
-							if(!isset($v['type'])) {
-								$temp[$i] = (string)$temp[$i];
-							} else {
-								if($v['type'] == 'string') $temp[$i] = (string)$temp[$i];
-								elseif($v['type'] == 'int') $temp[$i] = (int)$temp[$i];
-								elseif($v['type'] == 'array') $temp[$i] = (array)$temp[$i];
-								elseif($v['type'] == 'boolean') $temp[$i] = (boolean)$temp[$i];
-								else {
-									$_GET['_module'] = 'static';
-									$_GET['_page'] = '404';
-									goto page404;
-								}
-							}
-							if(isset($v['rules']) && !preg_match('#^'.$v['rules'].'$#ius',$temp[$i])) {
-								$_GET['_module'] = 'static';
-								$_GET['_page'] = '404';
-								goto page404;
-							}
-							$_GET[$k] = $temp[$i];
-						}
-						++$i;
-					}
-				}
-			}
-			if(isset($temp[$i])) {
+			$temp[$i] = (string)$temp[$i];
+			if(!isset(Core::$SITEMAP[$temp[$i]]) || !preg_match('#^[a-z0-9_-]+$#ius',$temp[$i])) {
 				$_GET['_module'] = 'static';
 				$_GET['_page'] = '404';
+				goto page404;
+			} else {
+				$_GET['_module'] = $temp[$i++];
 			}
-			unset($temp,$key);
+
+			if(!isset($temp[$i])) {
+				$key = key(Core::$SITEMAP[$_GET['_module']]);
+				$_GET['_page'] = (!isset(Core::$SITEMAP[$_GET['_module']][$key]) ? 'main' : $key);
+			} elseif(isset(Core::$SITEMAP[$_GET['_module']][$temp[$i]])) {
+				$temp[$i] = (string)$temp[$i];
+				$_GET['_page'] = $temp[$i++];
+			} else {
+				$key = key(Core::$SITEMAP[$_GET['_module']]);
+				$_GET['_page'] = (!isset(Core::$SITEMAP[$_GET['_module']][$key]) ? 'main' : $key);
+			}
+
+			page404:
+
+			if(isset(Core::$SITEMAP[$_GET['_module']][$_GET['_page']]) && is_array(Core::$SITEMAP[$_GET['_module']][$_GET['_page']])) {
+				foreach(Core::$SITEMAP[$_GET['_module']][$_GET['_page']] as $k=>$v) {
+					if(!isset($temp[$i])) {
+						if(!empty($v['req'])) {
+							$_GET['_module'] = 'static';
+							$_GET['_page'] = '404';
+							goto page404;
+						} elseif(isset($v['default'])) {
+							$_GET[$k] = $v['default'];
+						}
+					} else {
+						if(!empty($v['req']) && empty($temp[$i])) {
+							$_GET['_module'] = 'static';
+							$_GET['_page'] = '404';
+							goto page404;
+						}
+						if(!isset($v['type'])) {
+							$temp[$i] = (string)$temp[$i];
+						} else {
+							if($v['type'] == 'string') $temp[$i] = (string)$temp[$i];
+							elseif($v['type'] == 'int') $temp[$i] = (int)$temp[$i];
+							elseif($v['type'] == 'array') $temp[$i] = (array)$temp[$i];
+							elseif($v['type'] == 'boolean') $temp[$i] = (boolean)$temp[$i];
+							else {
+								$_GET['_module'] = 'static';
+								$_GET['_page'] = '404';
+								goto page404;
+							}
+						}
+						if(isset($v['rules']) && !preg_match('#^'.$v['rules'].'$#ius',$temp[$i])) {
+							$_GET['_module'] = 'static';
+							$_GET['_page'] = '404';
+							goto page404;
+						}
+						$_GET[$k] = $temp[$i];
+					}
+					++$i;
+				}
+			}
 		}
+		if(isset($temp[$i])) {
+			$_GET['_module'] = 'static';
+			$_GET['_page'] = '404';
+		}
+		unset($temp,$key);
 
 		ob_start();
 		if(defined('ADMIN')) {
