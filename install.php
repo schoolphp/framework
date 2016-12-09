@@ -1,4 +1,4 @@
-<?php /* version 0.2 */
+<?php /* version 1.0.6 */
 error_reporting(-1);
 ini_set('display_errors',1);
 ini_set('display_startup_errors',1);

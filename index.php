@@ -230,7 +230,7 @@ class FrontController {
 	}
 }
 
-$content = FrontController::init(isset($_GET['route']) ? $_GET['route'] : '');
+$content = FrontController::init($_GET['route'] ?? '');
 if(isset($_GET['ajax'])) {
 	echo $content;
 	exit;
