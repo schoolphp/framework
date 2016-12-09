@@ -1,4 +1,5 @@
 <?php
+// Hi :)
 ini_set('log_errors',1);
 include_once './config/config.php';
 if(Core::$HTTPS && (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != 'on')) {
@@ -51,7 +52,6 @@ if(!empty($_GET['URI']) && $_GET['URI'] != 'index.php') {
 	exit;
 
 }
-
 require './'.Core::$CONT.'/_allmodules.php';
 
 class FrontController {
