@@ -1,4 +1,7 @@
 <?php
+/**
+ * version 1.0.9
+ */
 ini_set('log_errors',1);
 include_once './config/config.php';
 if(Core::$HTTPS && (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != 'on')) {
