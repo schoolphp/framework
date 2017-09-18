@@ -50,7 +50,6 @@ $phperror = ob_get_clean();
 <link rel="icon" href="/favicon.ico" type="image/x-icon">
 <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 <link href="/skins/components/bower/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="/skins/components/bower/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet">
 <link href="/vendor/schoolphp/library/Installer/style.css" rel="stylesheet">
 <script src="/skins/components/bower/jquery/dist/jquery.min.js"></script>
 <script src="/skins/components/bower/bootstrap/dist/js/bootstrap.min.js" defer></script>
