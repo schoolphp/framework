@@ -18,10 +18,13 @@ c clear-cache
 
 
 1.а) Создайте новый проект в PHPStorm, выберите способ создания `COMPOSER` и установите пакет `schoolphp/framework`.
-2.б) Как альтернатива можно запустить команду в `Tools->Run command...`:
+1.б) Как альтернативу можно запустить команду в `Tools->Run command...`:
 ```bash
-c create-project schoolphp/framework <project-path>
+c create-project schoolphp/framework C:/OpenServer/domains/newsite.ru/ 1.1.5
 ```
+Уточню, в данном случае мы указываем путь куда устанавливаем проект, а так же последним параметром указываем версию проекта. Последнюю версию можно увидеть тут:
+https://github.com/schoolphp/framework/releases
+Хочу заметить, что PHPStorm хранит кэш установок, поэтому через `FILE - NEW PROJECT` может находиться не самая свежая версия. Поэтому данный способ можно считать самым эффективным.
 
 1.в) Альтернативная установка через git: запускаем команды через `Terminal` в PHPStorm, быстрый доступ находится слева внизу:
 ```bash
