@@ -47,6 +47,35 @@ bower install
 c install
 ```
 
+4) Устанавливаем следующий менеджер зависимостей NPM. Bootstrap и Font-Awesome перешли с `bower` на `NPM`. Открываем `Terminal`:
+```bash
+cd skins/components
+npm install
+```
+
+5) В данной сборке временами я буду обновлять версию `bootstrap`, если же Вы хотите обновить до последней сборки Bootstrap самостоятельно, то необходимо будет собрать css файл из SASS вручную. Делается это следующим образом:
+
+5.1) Установка Ruby + Sass компилятор:
+ 
+https://www.ruby-lang.org/en/downloads/
+
+Запускаете `Поиск` - `cmd` (откроется консоль, можно так же открыть через `Выполнить` - `cmd`), в ней пишете команду:
+```bash
+gem install sass
+```
+
+5.2) Настроить в PHPStorm можно двумя способами. Самый простой - открыть scss файл (scss файл аналогичен less), нам предложат добавить File Watchers сверху, жмём `YES` или:
+
+`Settings` - `File Watchers` - `Добавить` - `SCSS` . Устанавливаем следующие настройки:
+```bash
+Arguments: --no-cache --update --style compressed $FileName$:$FileNameWithoutExtension$.min.css
+Output paths to refresh: $FileNameWithoutExtension$.min.css:$FileNameWithoutExtension$.min.css.map
+Immediate file synchronization: отключаем
+```
+
+5.3) Открываем файл `skins/components/node_modules/bootstrap/scss/bootstrap.scss` и из неё убираем строку `@import "reboot";` , Сохраняем файл. Получаем в данной папке bootstrap.min.css , он то нам и нужен! Либо укажите путь к файлу, либо скопируйте его в созданную ранее папку `skins/components/bootstrap`, так же в эту папку не забудьте скинуть `skins/components/node_modules/bootstrap/dist/js/bootstrap.min.js`
+
+ 
 
 ## Настройка
 1) Необходимо настроить `MySQL` , а именно `Создать новую Базу Данных` и `Нового пользователя`.
