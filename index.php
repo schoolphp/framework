@@ -1,19 +1,18 @@
 <?php
+error_reporting(-1);
+ini_set('log_errors',1);
 if(isset($_GET['route'])) {
 	$_GET['route'] = preg_replace('#^\/#','',$_GET['route']);
 }
-ini_set('log_errors',1);
 include_once './config/config.php';
 if(Core::$HTTPS && (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != 'on')) {
 	header("Location: ".Core::$DOMAIN.($_SERVER['REQUEST_URI'] ?? ''),TRUE,301);
 	exit;
 }
 if(Core::$STATUS == 0) {
-	error_reporting(0);
 	ini_set('display_errors',0);
 	ini_set('display_startup_errors',0);
 } else {
-	error_reporting(-1);
 	ini_set('display_errors',1);
 	ini_set('display_startup_errors',1);
 }
