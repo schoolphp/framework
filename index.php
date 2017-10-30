@@ -1,4 +1,7 @@
 <?php
+if(isset($_GET['route'])) {
+	$_GET['route'] = preg_replace('#^\/#','',$_GET['route']);
+}
 ini_set('log_errors',1);
 include_once './config/config.php';
 if(Core::$HTTPS && (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != 'on')) {
