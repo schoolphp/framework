@@ -141,6 +141,17 @@ class FrontController {
 				}
 				else {
 					$_GET['_module'] = $temp[$i++];
+					if($_GET['_module'] === 'api') {
+						foreach(Core::$SITEMAP['api'] as $k=>$v) {
+							if($k === '/OPTIONS') continue;
+							$tmp = array_reverse(Core::$SITEMAP['api'][$k], true);
+							$tmp['_subpage'] = [
+								'req' => 1,
+								'type' => 'string'
+							];
+							Core::$SITEMAP['api'][$k] = array_reverse($tmp, true);
+						}
+					}
 				}
 
 				if(!isset($temp[$i])) {
