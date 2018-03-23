@@ -1,9 +1,8 @@
 <?php
-error_reporting(-1);
-ini_set('log_errors',1);
-if(isset($_GET['route'])) {
-	$_GET['route'] = preg_replace('#^\/#','',$_GET['route']);
-}
+$tmp = explode('?',$_SERVER['REQUEST_URI']);
+$_GET['route'] = trim(urldecode($tmp[0]),'/');
+unset($tmp);
+
 include_once './config/config.php';
 if(Core::$HTTPS && (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != 'on')) {
 	header("Location: ".Core::$DOMAIN.($_SERVER['REQUEST_URI'] ?? ''),TRUE,301);
@@ -12,9 +11,13 @@ if(Core::$HTTPS && (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != 'on')) {
 if(Core::$STATUS == 0) {
 	ini_set('display_errors',0);
 	ini_set('display_startup_errors',0);
+	error_reporting(0);
+	ini_set('log_errors',0);
 } else {
 	ini_set('display_errors',1);
 	ini_set('display_startup_errors',1);
+	error_reporting(-1);
+	ini_set('log_errors',1);
 }
 Core::$ROOT = __DIR__;
 $t = microtime(true);
@@ -63,7 +66,7 @@ class FrontController {
 		return $content;
 	}
 
-	static function init($route = '',$tempGET = false) {
+	static function init($route,$tempGET = false) {
 		if($tempGET) {
 			$GET = $_GET;
 			$_GET = ($tempGET === true ? ['ajax'=>1] : $tempGET);
@@ -84,11 +87,11 @@ class FrontController {
 					$shortroute = $route;
 				}
 				$res = q("
-				SELECT `short`,`full`
-				FROM `fw_shortlink`
-				WHERE `short` = '".es(trim($shortroute, '/'))."'
-				   OR `full`  = '".es(trim($shortroute, '/'))."'
-			");
+					SELECT `short`,`full`
+					FROM `fw_shortlink`
+					WHERE `short` = '".es(trim($shortroute, '/'))."'
+					   OR `full`  = '".es(trim($shortroute, '/'))."'
+				");
 				if($res->num_rows) {
 					$row = $res->fetch_assoc();
 					Core::$META['shortlink'] = '/'.$row['short'];
@@ -244,7 +247,7 @@ class FrontController {
 	}
 }
 
-$content = FrontController::init($_GET['route'] ?? '');
+$content = FrontController::init($_GET['route']);
 if(isset($_GET['ajax'])) {
 	echo $content;
 	exit;

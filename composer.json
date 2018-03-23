@@ -21,7 +21,8 @@
   "require": {
     "php": ">=7.0.0",
     "schoolphp/library": "dev-master",
-    "phpmailer/phpmailer": "6.*"
+    "phpmailer/phpmailer": "6.*",
+    "psr/log": "^1.0@dev"
   },
   "config": {
     "preferred-install": "dist"
